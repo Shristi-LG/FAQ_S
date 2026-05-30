@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const QueryCache = require('../models/QueryCache');
 const CacheVote = require('../models/CacheVote');
 const QueryVote = require('../models/QueryVote');
+const Query = require('../models/Query');
+const User = require('../models/User');
+const Notification = require('../models/Notification');
 const authStudent = require('../middleware/authStudent');
 
 // ─── GET /api/cache/top5 — Genie: top 5 most upvoted from 15-day cache ──────
@@ -134,6 +137,24 @@ router.post('/:cacheId/vote', authStudent, async (req, res) => {
         // Auto-hide if flags exceed threshold
         if (updated.flags > 3) {
           await QueryCache.findByIdAndUpdate(entry._id, { isHidden: true });
+
+          // If this was an answered entry, penalise the answerer
+          if (updated.answerStatus === 'answered' && updated.answer) {
+            const query = await Query.findOne({ _id: updated.queryId });
+            if (query?.answeredByModel === 'User' && query?.answeredBy) {
+              await User.findByIdAndUpdate(
+                query.answeredBy,
+                { $inc: { confidenceScore: -1 } },
+                { new: true }
+              );
+              await Notification.create({
+                notifiedUser: query.answeredBy,
+                type: 'answer_flagged',
+                queryId: query._id,
+                message: 'Your answer was removed due to community flags. −1 confidence point.',
+              });
+            }
+          }
         }
       }
     }

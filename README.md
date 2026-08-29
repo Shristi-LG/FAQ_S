@@ -36,12 +36,4 @@ A robust, scalable backend service designed to store, retrieve, and intelligentl
 ├── requirements.txt
 └── README.md
 
-PrerequisitesPython 3.9 or higherGitInstallation & SetupClone the repository:Bashgit clone [https://github.com/Shristi-LG/FAQ_S.git](https://github.com/Shristi-LG/FAQ_S.git)
-cd FAQ_S
-Create and activate a virtual environment:Bashpython -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-Install dependencies:Bashpip install -r requirements.txt
-Run the backend application:Bashpython main.py
-# Or using uvicorn if built with FastAPI:
-# uvicorn app.main:app --reload
-API EndpointsMethodEndpointDescriptionGET/api/faqsRetrieve all indexed FAQsPOST/api/faqsAdd a new FAQ entry (Admin)POST/api/querySubmit a user question & return top matched responsesDELETE/api/faqs/{id}Remove an existing FAQ entryFuture Roadmap & Enhancements1. Real-Time Zoom Session Query Aggregation (AI / Automation)Live Ingestion via Webhooks: Connect with Zoom API/webhooks to capture live Q&A and transcript streams during online workshops, cohorts, and internships.NLP Question Clustering: Leverage vector embeddings to aggregate duplicate/similar attendee questions in real-time, instantly highlighting top community queries to moderators.2. Gamified Community Escalation & Token Engine (Backend / System Design)Peer-to-Peer Reward System: Implement a token-based credit economy where users earn tokens by successfully answering peer queries.Priority Queue & Query Bumping: Build a dynamic priority queue allowing users to burn earned tokens to escalate urgent queries to the top of administrator dashboards.Concurrency & Transaction Safety: Enforce atomic database transactions to guarantee data consistency and prevent token race conditions during high-volume escalation events.
+revent token race conditions during high-volume escalation events.
